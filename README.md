@@ -1,12 +1,33 @@
-# React + Vite
+# 🌦️ Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern weather application built using **React** and **OpenWeatherMap API**, with features like dark mode, city auto-suggestions, current location weather, and multi-language support.
 
-Currently, two official plugins are available:
+![Weather App Preview](https://your-screenshot-link.com) <!-- Optional: add screenshot URL -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔗 Live Demo
+👉 [weather-app-rizvan.vercel.app](https://weather-app-rizvan.vercel.app)
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🔍 Debounced search with city auto-suggestions using Geocoding API
+- 📍 Get weather by current location (using browser's Geolocation)
+- 🌙 Dark/Light mode toggle
+- 🌐 Multi-language support (e.g., Hindi, Malayalam, French, etc.)
+- 🌡️ Displays temperature, humidity, wind speed, and icons
+- 🎨 Clean UI and mobile responsive design
+- ✅ Deployed on **Vercel**
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React, CSS
+- **API**: [OpenWeatherMap API](https://openweathermap.org/api)
+- **Geocoding**: OpenWeather Geo API
+- **Deployment**: Vercel
+
+## 📦 Installation (For Devs)
+
+```bash
+git clone https://github.com/Rizvan337/weather-app.git
+cd weather-app
+npm install
+npm run dev
