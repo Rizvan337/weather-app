@@ -14,6 +14,9 @@ import Swal from 'sweetalert2';
             const inputRef = useRef()
             const [weatherData,setWeatherData] = useState(false)
             const [darkMode, setDarkMode] = useState(false);
+            const [suggestions, setSuggestions] = useState([]);
+            const [typingTimer, setTypingTimer] = useState(null);
+
             const allIcons = {
                 "01d":clear_icon,
                 "01n":clear_icon,
@@ -30,6 +33,20 @@ import Swal from 'sweetalert2';
                 "13d":snow_icon,
                 "13n":snow_icon,
             }
+            const fetchCitySuggestions = async (query) => {
+                if (query.length < 2) return setSuggestions([]); 
+              
+                try {
+                  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${import.meta.env.VITE_APP_ID}`;
+                  const response = await fetch(url);
+                  const data = await response.json();
+                  
+                  setSuggestions(data); 
+                } catch (error) {
+                  console.error("Error fetching suggestions", error);
+                }
+              };
+              
         const search = async (city)=>{
             if(city===""){
                 return Swal.fire({
@@ -89,16 +106,56 @@ import Swal from 'sweetalert2';
                   });
             }
         }
-    useEffect(()=>{
-        search("New York")
-    },[])
+        useEffect(() => {
+            navigator.geolocation.getCurrentPosition((position) => {
+              const { latitude, longitude } = position.coords;
+              fetch(
+                `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${import.meta.env.VITE_APP_ID}`
+              )
+                .then(res => res.json())
+                .then(data => {
+                  const icon = allIcons[data.weather[0].icon] || clear_icon;
+                  setWeatherData({
+                    humidity: data.main.humidity,
+                    windSpeed: data.wind.speed,
+                    tempearature: Math.floor(data.main.temp),
+                    location: data.name,
+                    icon: icon,
+                  });
+                });
+            });
+          }, []);
+          
   return (
     <div className={darkMode ? 'weather dark' : 'weather'}>
     <button onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
       </button>
        <div className="search-bar">
-        <input ref={inputRef} type="text" placeholder='Search'/>
+        <input ref={inputRef} type="text" placeholder='Search' onChange={(e)=>{
+            const value = e.target.value;
+            if (typingTimer) clearTimeout(typingTimer);
+            const newTimer = setTimeout(() => {
+              fetchCitySuggestions(value);
+            }, 500);
+            setTypingTimer(newTimer);
+        }}/>
+        <ul className="suggestion-list">
+  {suggestions.map((city, index) => (
+    <li
+      key={index}
+      onClick={() => {
+        const cityName = `${city.name}${city.state ? ', ' + city.state : ''}, ${city.country}`;
+        inputRef.current.value = city.name;
+        search(city.name);
+        setSuggestions([]); 
+      }}
+    >
+      {city.name}{city.state ? ', ' + city.state : ''}, {city.country}
+    </li>
+  ))}
+</ul>
+
         <img src={search_icon} alt="" onClick={()=>search(inputRef.current.value)}/>
        </div>
        {weatherData?<>
