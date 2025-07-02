@@ -10,7 +10,6 @@ A modern weather application built using **React** and **OpenWeatherMap API**, w
 - 🔍 Debounced search with city auto-suggestions using Geocoding API
 - 📍 Get weather by current location (using browser's Geolocation)
 - 🌙 Dark/Light mode toggle
-- 🌐 Multi-language support (e.g., Hindi, Malayalam, French, etc.)
 - 🌡️ Displays temperature, humidity, wind speed, and icons
 - 🎨 Clean UI and mobile responsive design
 - ✅ Deployed on **Vercel**
