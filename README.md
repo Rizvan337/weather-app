@@ -28,3 +28,12 @@ git clone https://github.com/Rizvan337/weather-app.git
 cd weather-app
 npm install
 npm run dev
+
+## 🙋‍♂️ About Me
+
+**Muhammed Rizvan R S**  
+- MERN Stack Developer  
+- [LinkedIn](https://linkedin.com/in/riswan-r-s)  
+- [GitHub](https://github.com/Rizvan337)
+
+---
