@@ -1,8 +1,6 @@
 # 🌦️ Weather App
 
-A modern weather application built using **React** and **OpenWeatherMap API**, with features like dark mode, city auto-suggestions, current location weather, and multi-language support.
-
-![Weather App Preview](https://your-screenshot-link.com) <!-- Optional: add screenshot URL -->
+A modern weather application built using **React** and **OpenWeatherMap API**, with features like dark mode, city auto-suggestions and current location weather.
 
 ## 🔗 Live Demo
 👉 [weather-app-rizvan.vercel.app](https://weather-app-rizvan.vercel.app)
