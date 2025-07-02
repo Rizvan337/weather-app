@@ -8,9 +8,12 @@ import rain_icon from '../assets/rain.png'
 import snow_icon from '../assets/snow.png'
 import wind_icon from '../assets/wind.png'
 import humidity_icon from '../assets/humidity.png'
+import Swal from 'sweetalert2';
+
         function Weather() {
             const inputRef = useRef()
             const [weatherData,setWeatherData] = useState(false)
+            const [darkMode, setDarkMode] = useState(false);
             const allIcons = {
                 "01d":clear_icon,
                 "01n":clear_icon,
@@ -28,14 +31,32 @@ import humidity_icon from '../assets/humidity.png'
                 "13n":snow_icon,
             }
         const search = async (city)=>{
-            if(city==="")return alert("Enter city name")
+            if(city===""){
+                return Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: 'Please enter a city name',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                  });
+            }
             try {
                 const url= `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_APP_ID}`
 
                 const response = await fetch(url)
                 const data = await response.json()
                 if(!response.ok){
-                    alert(data.message)
+                    return Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'error',
+                        title: data.message || 'City not found',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                      });
                 }
                 const icon = allIcons[data.weather[0].icon]||clear_icon
                 setWeatherData({
@@ -45,17 +66,37 @@ import humidity_icon from '../assets/humidity.png'
                     location:data.name,
                     icon:icon,  
                 })
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: `Showing weather for ${data.name}`,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                  });
             } catch (error) {
                 setWeatherData(false)
                 console.error("Error in fetching data");
-                
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Something went wrong. Try again!',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                  });
             }
         }
     useEffect(()=>{
         search("New York")
     },[])
   return (
-    <div className='weather'>
+    <div className={darkMode ? 'weather dark' : 'weather'}>
+    <button onClick={() => setDarkMode(!darkMode)}>
+        {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+      </button>
        <div className="search-bar">
         <input ref={inputRef} type="text" placeholder='Search'/>
         <img src={search_icon} alt="" onClick={()=>search(inputRef.current.value)}/>
